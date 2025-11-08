@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Github-ready</title>
+    <title>dm-notes-local</title>
     <meta charset="UTF-8">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <!-- Add highlight.js for syntax highlighting -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/styles/github-dark.min.css">
-    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
     <style>
         /* Dark Theme Variables */
         :root {
@@ -140,23 +137,11 @@
             margin-bottom: 20px;
         }
 
-        /* GitHub Notice */
-        .github-notice {
+        .detection-status {
             text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            background: var(--bg-tertiary);
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-
-        .github-notice a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        .github-notice a:hover {
-            text-decoration: underline;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
         }
     </style>
 </head>
@@ -175,66 +160,87 @@
 
     <div class="container">
         <div class="header">
-            <h1>🌱 Markdown Notes</h1>
-            <p>Browse and search</p>
+            <h1>🌱 Digital Garden</h1>
+            <p>Browse and search through all documentation</p>
         </div>
 
         <input type="text" class="search-box" id="searchInput" placeholder="🔍 Search documents...">
 
-        <div id="fileCount" class="file-count">Loading documents...</div>
+        <div id="detectionStatus" class="detection-status">🔄 Scanning docs directory...</div>
+        <div id="fileCount" class="file-count"></div>
 
         <div id="docList" class="doc-list">
             <div class="empty-state">Loading documents...</div>
         </div>
-
-        <div class="github-notice">
-            <p>📚 <strong>Read-only version</strong> - For full features and sync capabilities, visit the <a href="https://github.com/nali-v1/md_notes">GitHub repository</a></p>
-        </div>
     </div>
 
     <script>
-        // Configure marked to use highlight.js for syntax highlighting
-        marked.setOptions({
-            highlight: function(code, lang) {
-                if (lang && hljs.getLanguage(lang)) {
-                    return hljs.highlight(code, { language: lang }).value;
-                }
-                return hljs.highlightAuto(code).value;
-            },
-            langPrefix: 'hljs language-'
-        });
-
-        // Static list of documents for GitHub Pages
-        const availableDocs = [
-            { 
-                title: 'Welcome to Digital Garden', 
-                path: 'docs/README.md', 
-                filename: 'README.md',
-                description: 'Getting started with your digital garden'
-            },
-            { 
-                title: 'Feature Demo', 
-                path: 'docs/demo.md', 
-                filename: 'demo.md',
-                description: 'Showcase of code blocks, copy buttons, and interactive elements'
+        // Auto-detect markdown files dynamically
+        async function loadMarkdownFiles() {
+            try {
+                document.getElementById('detectionStatus').textContent = '🔄 Scanning docs directory...';
+                
+                // Try to get list from docs directory
+                const response = await fetch('docs/');
+                if (!response.ok) throw new Error('Cannot access docs directory');
+                
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const links = doc.querySelectorAll('a[href$=".md"]');
+                
+                const files = Array.from(links)
+                    .map(link => {
+                        const href = link.getAttribute('href');
+                        const filename = href.split('/').pop();
+                        return {
+                            title: filename.replace('.md', '')
+                                          .replace(/_/g, ' ')
+                                          .replace(/-/g, ' ')
+                                          .replace(/\b\w/g, l => l.toUpperCase()),
+                            path: `docs/${filename}`,
+                            filename: filename
+                        };
+                    })
+                    .filter(file => file.filename.endsWith('.md'))
+                    .sort((a, b) => a.title.localeCompare(b.title));
+                
+                document.getElementById('detectionStatus').textContent = `✅ Found ${files.length} markdown files`;
+                return files;
+                
+            } catch (error) {
+                console.log('Auto-detection failed:', error);
+                document.getElementById('detectionStatus').textContent = '❌ Auto-detection failed, using fallback list';
+                
+                // Fallback to manual list
+                return [
+                    { 
+                        title: 'Welcome Guide', 
+                        path: 'docs/README.md', 
+                        filename: 'README.md' 
+                    },
+                    { 
+                        title: 'Neovim Mastery', 
+                        path: 'docs/nvim.md', 
+                        filename: 'nvim.md' 
+                    }
+                ];
             }
-            // ADD MORE FILES HERE AS YOU CREATE THEM:
-            // { 
-            //     title: 'Neovim Mastery', 
-            //     path: 'docs/nvim.md', 
-            //     filename: 'nvim.md',
-            //     description: 'Neovim configurations and workflows'
-            // },
-        ];
+        }
 
         function renderDocList(docs) {
             const container = document.getElementById('docList');
             const countElement = document.getElementById('fileCount');
             
-            countElement.textContent = `${docs.length} document${docs.length !== 1 ? 's' : ''} found`;
+            countElement.textContent = `${docs.length} document${docs.length !== 1 ? 's' : ''} available`;
             
             if (docs.length === 0) {
-                container.innerHTML = '<div class="empty-state">No documents found matching your search.</div>';
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No documents found</h3>
+                        <p>Add some .md files to the docs/ directory to get started!</p>
+                    </div>
+                `;
                 return;
             }
 
@@ -242,43 +248,43 @@
                 <a href="viewer.html?file=${doc.path}" class="doc-item">
                     <div class="doc-title">${doc.title}</div>
                     <div class="doc-path">${doc.path}</div>
-                    ${doc.description ? `<div style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px;">${doc.description}</div>` : ''}
                 </a>
             `).join('');
         }
 
-        function filterDocs(searchTerm) {
-            if (!searchTerm) {
-                return availableDocs;
-            }
+        function filterDocs(docs, searchTerm) {
+            if (!searchTerm) return docs;
             
             const term = searchTerm.toLowerCase();
-            return availableDocs.filter(doc => 
+            return docs.filter(doc => 
                 doc.title.toLowerCase().includes(term) ||
                 doc.path.toLowerCase().includes(term) ||
-                doc.filename.toLowerCase().includes(term) ||
-                (doc.description && doc.description.toLowerCase().includes(term))
+                doc.filename.toLowerCase().includes(term)
             );
         }
 
-        // Random document loader
-        function loadRandomDoc() {
-            if (availableDocs.length > 0) {
-                const randomFile = availableDocs[Math.floor(Math.random() * availableDocs.length)];
+        // Random document loader (for header)
+        async function loadRandomDoc() {
+            const files = await loadMarkdownFiles();
+            if (files.length > 0) {
+                const randomFile = files[Math.floor(Math.random() * files.length)];
                 window.location.href = `viewer.html?file=${randomFile.path}`;
             }
         }
 
         // Initialize
-        renderDocList(availableDocs);
-        
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const filteredDocs = filterDocs(e.target.value);
-            renderDocList(filteredDocs);
+        loadMarkdownFiles().then(files => {
+            window.allDocs = files;
+            renderDocList(files);
+            
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                const filteredDocs = filterDocs(window.allDocs, e.target.value);
+                renderDocList(filteredDocs);
+            });
+            
+            document.getElementById('searchInput').focus();
         });
-        
-        document.getElementById('searchInput').focus();
     </script>
 </body>
 </html>

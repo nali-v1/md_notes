@@ -1,155 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Github-ready Viewer</title>
+    <title>Markdown Viewer</title>
     <meta charset="UTF-8">
+    <!-- Load all required libraries -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link rel="stylesheet" href="style.css">
+    
     <style>
-        /* Dark Theme Variables */
-        :root {
-            --bg-primary: #0f0f0f;
-            --bg-secondary: #1a1a1a;
-            --bg-tertiary: #2a2a2a;
-            --text-primary: #e8e8e8;
-            --text-secondary: #a0a0a0;
-            --accent: #87ceeb;
-            --border: #333333;
-            --shadow: 0 4px 20px rgba(0,0,0,0.3);
-            --code-bg: #272822;
-            --code-text: #f8f8f2;
-            --code-border: #49483e;
-            --success: #27ae60;
-        }
-
-        /* Floating Header */
+        /* Only minimal styling for header */
         .floating-header {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: var(--bg-secondary);
+            background: #1a1a1a;
             padding: 15px 20px;
-            box-shadow: var(--shadow);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid #333333;
         }
         .floating-header a {
             margin: 0 10px;
-            color: var(--accent);
+            color: #87ceeb;
             text-decoration: none;
             font-weight: 500;
             transition: color 0.2s;
         }
         .floating-header a:hover {
-            color: var(--text-primary);
+            color: #ffffff;
         }
         
-        /* Main Content */
+        /* Body padding for header */
         body {
             margin: 0;
             padding-top: 60px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
             min-height: 100vh;
         }
-        #content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            background: var(--bg-secondary);
-            min-height: calc(100vh - 60px);
-            box-shadow: var(--shadow);
-            border-left: 1px solid var(--border);
-            border-right: 1px solid var(--border);
+        
+        /* Clean viewer header - just show current file */
+        .viewer-header {
+            padding: 1rem 0;
+            margin-bottom: 0;
+            border-bottom: none;
         }
         
-        /* Markdown Styling */
-        h1 { 
-            color: var(--text-primary); 
-            border-bottom: 2px solid var(--accent); 
-            padding-bottom: 10px; 
-            margin-top: 0;
-        }
-        h2 { 
-            color: var(--text-primary); 
-            margin-top: 30px; 
-        }
-        a { 
-            color: var(--accent); 
-            text-decoration: none; 
-        }
-        a:hover { 
-            text-decoration: underline; 
-        }
-        code { 
-            background: var(--bg-tertiary); 
-            padding: 2px 6px; 
-            border-radius: 3px; 
-            color: var(--accent);
-        }
-        
-        /* Code Blocks with Copy Button */
-        pre {
-            position: relative;
-            background: var(--code-bg);
-            color: var(--code-text);
-            padding: 15px;
-            border-radius: 5px;
-            overflow: auto;
-            border: 1px solid var(--code-border);
-            margin: 20px 0;
-        }
-        
-        .copy-button {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: var(--code-text);
-            border-radius: 4px;
-            padding: 6px 12px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            font-family: system-ui, -apple-system, sans-serif;
-            font-weight: 500;
-        }
-        
-        .copy-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-        
-        .copy-button.copied {
-            background: var(--success);
-            color: var(--code-bg);
-            border-color: var(--success);
-        }
-        
-        pre code {
-            background: transparent;
-            color: var(--code-text);
-            padding: 0;
-        }
-        
-        blockquote { 
-            border-left: 4px solid var(--accent); 
-            padding-left: 15px; 
-            margin-left: 0; 
-            color: var(--text-secondary); 
-            background: var(--bg-tertiary);
-            padding: 10px 15px;
-            border-radius: 0 5px 5px 0;
+        .current-file {
+            font-weight: 400;
+            color: var(--ui-text);
+            font-size: 0.95rem;
+            opacity: 0.8;
+            text-align: center;
+            padding: 0.5rem 0;
         }
     </style>
 </head>
-<body>
+<body class="viewer-page">
     <!-- Floating Header -->
     <div class="floating-header">
         <div>
@@ -159,67 +70,84 @@
         <div>
             <a href="https://github.com/nali-v1/md_notes" target="_blank">📁 GitHub</a>
             <a href="https://nali-v1.github.io/md_notes/" target="_blank">🌐 Live Site</a>
+            <a href="../sync_docs/index.html">🚀 Sync</a>
         </div>
     </div>
 
-    <!-- Content Area -->
-    <div id="content">Loading your document...</div>
+    <!-- Content Area - Clean and simple -->
+    <div class="viewer-container">
+        <div class="viewer-header">
+            <div class="current-file" id="currentFile"></div>
+        </div>
+        
+        <div class="viewer-main">
+            <div id="content" class="markdown-content">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading your document...</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Get current file from URL or default to index
+        // Get current file from URL or default to docs/index.md
         const urlParams = new URLSearchParams(window.location.search);
-        let currentFile = urlParams.get('file') || 'docs/README.md';
+        let currentFile = urlParams.get('file') || 'docs/index.md';
         
-        // Static list of available documents for GitHub Pages
-        // UPDATED WITH YOUR ACTUAL FILES
-        const availableDocs = [
-            'docs/README.md'
-            // ADD YOUR ACTUAL FILES HERE:
-            // 'docs/nvim.md',
+        // List of known markdown files in your docs directory
+        const knownFiles = [
+            'docs/index.md',
+            'docs/LICENSE.md', 
+            'docs/nvim.md'
         ];
         
-        // Add copy buttons to code blocks
-        function addCopyButtons() {
-            const codeBlocks = document.querySelectorAll('pre');
-            codeBlocks.forEach(block => {
-                // Check if copy button already exists
-                if (!block.querySelector('.copy-button')) {
-                    const button = document.createElement('button');
-                    button.className = 'copy-button';
-                    button.textContent = 'Copy';
-                    button.addEventListener('click', async () => {
-                        const code = block.querySelector('code')?.innerText || block.innerText;
-                        try {
-                            await navigator.clipboard.writeText(code);
-                            button.textContent = 'Copied!';
-                            button.classList.add('copied');
-                            setTimeout(() => {
-                                button.textContent = 'Copy';
-                                button.classList.remove('copied');
-                            }, 2000);
-                        } catch (err) {
-                            console.error('Failed to copy: ', err);
-                        }
-                    });
-                    block.appendChild(button);
-                }
-            });
+        // Auto-detect available documents for random navigation
+        async function getAvailableDocs() {
+            try {
+                // Try to get list from docs directory
+                const response = await fetch('docs/');
+                if (!response.ok) throw new Error('Cannot access docs directory');
+                
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const links = doc.querySelectorAll('a[href$=".md"]');
+                
+                const files = Array.from(links)
+                    .map(link => {
+                        const href = link.getAttribute('href');
+                        return `docs/${href}`;
+                    })
+                    .filter(file => file.endsWith('.md'));
+                
+                console.log('Found files:', files);
+                return files.length > 0 ? files : knownFiles;
+                
+            } catch (error) {
+                console.log('Auto-detection failed, using known files list');
+                return knownFiles;
+            }
         }
         
         // Load and render markdown
         function loadDocument(file) {
             currentFile = file;
+            document.getElementById('currentFile').textContent = file;
+            
+            console.log('Loading file:', file);
             
             fetch(file)
                 .then(response => {
-                    if (!response.ok) throw new Error('File not found');
+                    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                     return response.text();
                 })
                 .then(markdown => {
-                    document.getElementById('content').innerHTML = marked.parse(markdown);
+                    console.log('File loaded successfully, rendering markdown');
                     
-                    // Add copy buttons after content is rendered
-                    setTimeout(addCopyButtons, 100);
+                    // Render markdown using marked.js
+                    const htmlContent = marked.parse(markdown);
+                    document.getElementById('content').innerHTML = htmlContent;
                     
                     // Update URL without page reload
                     window.history.replaceState({}, '', `?file=${file}`);
@@ -229,17 +157,55 @@
                     if (firstHeading) {
                         document.title = firstHeading[1] + ' - Digital Garden';
                     }
+                    
+                    // Apply syntax highlighting after markdown is rendered
+                    setTimeout(() => {
+                        document.querySelectorAll('pre code').forEach((block) => {
+                            hljs.highlightElement(block);
+                            
+                            // Add copy button to code blocks
+                            const copyButton = document.createElement('button');
+                            copyButton.className = 'copy-button';
+                            copyButton.textContent = 'Copy';
+                            copyButton.onclick = function() {
+                                navigator.clipboard.writeText(block.textContent).then(() => {
+                                    copyButton.textContent = 'Copied!';
+                                    copyButton.classList.add('copied');
+                                    setTimeout(() => {
+                                        copyButton.textContent = 'Copy';
+                                        copyButton.classList.remove('copied');
+                                    }, 2000);
+                                });
+                            };
+                            
+                            const pre = block.parentElement;
+                            if (pre && !pre.querySelector('.copy-button')) {
+                                pre.style.position = 'relative';
+                                pre.appendChild(copyButton);
+                            }
+                        });
+                    }, 100);
                 })
                 .catch(error => {
+                    console.error('Error loading file:', error);
                     document.getElementById('content').innerHTML = 
-                        `<h1>🌱 Document Not Found</h1>
-                         <p>Could not load: <code>${file}</code></p>
-                         <p><a href="viewer.html?file=docs/README.md">Return to Home</a></p>`;
+                        `<div class="error">
+                            <h3>🌱 Document Not Found</h3>
+                            <p>Could not load: <code>${file}</code></p>
+                            <p>Error: ${error.message}</p>
+                            <p>Available files:</p>
+                            <ul>
+                                <li><a href="viewer.html?file=docs/index.md">docs/index.md</a></li>
+                                <li><a href="viewer.html?file=docs/LICENSE.md">docs/LICENSE.md</a></li>
+                                <li><a href="viewer.html?file=docs/nvim.md">docs/nvim.md</a></li>
+                            </ul>
+                        </div>`;
                 });
         }
         
         // Load random document
-        function loadRandomDoc() {
+        async function loadRandomDoc() {
+            const availableDocs = await getAvailableDocs();
             if (availableDocs.length > 0) {
                 const randomFile = availableDocs[Math.floor(Math.random() * availableDocs.length)];
                 loadDocument(randomFile);
