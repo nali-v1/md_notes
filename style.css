@@ -1,0 +1,633 @@
+/* CSS Variables for consistent theming */
+:root {
+    /* Dark Theme Colors */
+    --ui-bg: #0a0a0a;
+    --ui-text: #e8e8e8;
+    --ui-accent: #87ceeb;
+    --ui-border: #2a2a2a;
+    --ui-hover: #1a1a1a;
+    
+    /* Paper Theme Colors - Clean Creamy White */
+    --paper-bg: #fefefe;
+    --paper-text: #2a2a2a;
+    --paper-border: #e5e5e5;
+    --paper-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    
+    /* GNOME Terminal Purple Code Colors */
+    --code-bg: #300a24;
+    --code-text: #ffffff;
+    --code-border: #5a2a4a;
+    --code-accent: #ff66ff;
+    
+    /* Layout */
+    --content-width: 95%;
+    --side-margin: 2.5%;
+    --border-radius: 12px;
+}
+
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Menlo', 'Ubuntu Mono', monospace;
+    line-height: 1.7;
+    transition: all 0.3s ease;
+}
+
+/* =========================================== */
+/* INDEX PAGE - DARK THEME */
+/* =========================================== */
+
+body.listing-page {
+    background: var(--ui-bg);
+    color: var(--ui-text);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: none;
+    width: var(--content-width);
+    margin: 0 auto;
+    padding: 3rem 0;
+}
+
+/* Header - Dark Theme */
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--ui-border);
+}
+
+.header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--ui-text);
+    font-weight: 400;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    color: #888;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    font-weight: 300;
+}
+
+/* Search - Dark Theme */
+.search-container {
+    max-width: 400px;
+    margin: 0 auto 3rem;
+}
+
+.search-input {
+    width: 100%;
+    padding: 14px 18px;
+    background: #1a1a1a;
+    border: 1px solid var(--ui-border);
+    border-radius: var(--border-radius);
+    color: var(--ui-text);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--ui-accent);
+    background: #222;
+}
+
+/* File List - Clean Dark Theme */
+.file-list-container {
+    background: #1a1a1a;
+    border: 1px solid var(--ui-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.file-count {
+    padding: 1.2rem 1.5rem;
+    background: #222;
+    border-bottom: 1px solid var(--ui-border);
+    color: #888;
+    font-size: 0.85rem;
+    font-weight: 300;
+}
+
+.file-list {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.file-item {
+    display: block;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--ui-border);
+    text-decoration: none;
+    color: var(--ui-text);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.file-item:last-child {
+    border-bottom: none;
+}
+
+.file-item:hover {
+    background: var(--ui-hover);
+    transform: translateX(8px);
+    border-left: 3px solid var(--ui-accent);
+}
+
+.file-name {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.file-icon {
+    font-size: 1.1rem;
+    opacity: 0.8;
+}
+
+.file-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.75rem;
+}
+
+.file-description {
+    color: #aaa;
+    font-size: 0.9rem;
+    flex: 1;
+    font-weight: 300;
+}
+
+.file-date {
+    color: #666;
+    font-size: 0.8rem;
+    min-width: 80px;
+    text-align: right;
+    font-weight: 300;
+}
+
+/* Footer - Dark Theme */
+.footer {
+    text-align: center;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--ui-border);
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.footer a {
+    color: var(--ui-accent);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer a:hover {
+    color: var(--ui-text);
+}
+
+/* =========================================== */
+/* VIEWER PAGE - PURE CREAMY WHITE BACKGROUND */
+/* =========================================== */
+
+body.viewer-page {
+    background: var(--ui-bg);
+    min-height: 100vh;
+    padding: 0;
+}
+
+.viewer-container {
+    max-width: none;
+    width: var(--content-width);
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Viewer Header - Dark */
+.viewer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 0;
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: #1a1a1a;
+    color: var(--ui-text);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    border: 1px solid var(--ui-border);
+}
+
+.back-link:hover {
+    background: #222;
+    transform: translateX(-2px);
+}
+
+.current-file {
+    font-weight: 400;
+    color: var(--ui-text);
+    font-size: 0.95rem;
+    opacity: 0.8;
+}
+
+/* Main Content Area - Pure Creamy White */
+.viewer-main {
+    flex: 1;
+    background: var(--ui-bg);
+    padding: 0;
+}
+
+.markdown-content {
+    background: var(--paper-bg);
+    border-radius: var(--border-radius);
+    padding: 3rem;
+    margin: 0;
+    box-shadow: var(--paper-shadow);
+    border: 1px solid var(--paper-border);
+    
+    /* Pure creamy white background - no lines, no texture */
+    background-image: none;
+    
+    /* Full width content */
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Markdown Typography - Clean White Background */
+.markdown-content h1 {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    color: var(--paper-text);
+    padding-bottom: 0;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    width: 100%;
+    max-width: 100%;
+    /* No border */
+    border-bottom: none;
+}
+
+.markdown-content h2 {
+    font-size: 1.6rem;
+    margin: 2rem 0 1rem 0;
+    color: var(--paper-text);
+    font-weight: 500;
+    width: 100%;
+    max-width: 100%;
+    border-bottom: none;
+}
+
+.markdown-content h3 {
+    font-size: 1.3rem;
+    margin: 1.5rem 0 0.75rem 0;
+    color: var(--paper-text);
+    font-weight: 500;
+    width: 100%;
+    max-width: 100%;
+    border-bottom: none;
+}
+
+.markdown-content p {
+    margin-bottom: 1.25rem;
+    color: var(--paper-text);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    width: 100%;
+    max-width: 100%;
+}
+
+.markdown-content ul, .markdown-content ol {
+    margin-bottom: 1.25rem;
+    padding-left: 2rem;
+    width: 100%;
+    max-width: 100%;
+}
+
+.markdown-content li {
+    margin-bottom: 0.5rem;
+    line-height: 1.7;
+}
+
+.markdown-content blockquote {
+    border-left: 4px solid var(--paper-border);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    color: #666;
+    font-style: italic;
+    width: 100%;
+    max-width: 100%;
+    background: rgba(229, 229, 229, 0.3);
+    padding: 1rem 1.5rem;
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+/* Clean tables - no internal borders */
+.markdown-content table {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    border: 1px solid var(--paper-border);
+}
+
+.markdown-content th, 
+.markdown-content td {
+    padding: 0.75rem;
+    text-align: left;
+    border: none;
+}
+
+.markdown-content th {
+    background: rgba(229, 229, 229, 0.5);
+    font-weight: 600;
+    color: var(--paper-text);
+}
+
+.markdown-content tr:nth-child(even) {
+    background: rgba(229, 229, 229, 0.2);
+}
+
+/* =========================================== */
+/* GNOME TERMINAL PURPLE CODE BLOCKS */
+/* =========================================== */
+
+.markdown-content pre {
+    background: var(--code-bg) !important;
+    border: 2px solid var(--code-border) !important;
+    border-radius: 10px !important;
+    padding: 1.75rem !important;
+    margin: 2rem 0 !important;
+    overflow-x: auto !important;
+    font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Menlo', 'Ubuntu Mono', monospace !important;
+    font-size: 0.92rem !important;
+    line-height: 1.6 !important;
+    position: relative;
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.markdown-content pre code {
+    background: transparent !important;
+    padding: 0 !important;
+    color: var(--code-text) !important;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    width: 100% !important;
+    display: block !important;
+}
+
+/* GNOME Terminal Purple syntax highlighting */
+.hljs {
+    background: var(--code-bg) !important;
+    color: var(--code-text) !important;
+}
+
+/* Base syntax colors */
+.hljs-keyword { color: #ff66ff !important; font-weight: bold !important; }
+.hljs-string { color: #cc99ff !important; }
+.hljs-number { color: #ff99cc !important; }
+.hljs-comment { color: #9966cc !important; font-style: italic !important; }
+.hljs-function { color: #66ffff !important; }
+.hljs-params { color: #ffffff !important; }
+.hljs-title { color: #cc99ff !important; }
+.hljs-built_in { color: #66ffff !important; }
+.hljs-literal { color: #ff99cc !important; }
+.hljs-type { color: #66ffff !important; }
+.hljs-variable { color: #ffffff !important; }
+.hljs-name { color: #ff66ff !important; }
+.hljs-tag { color: #ff66ff !important; }
+.hljs-attr { color: #66ffff !important; }
+.hljs-attribute { color: #cc99ff !important; }
+.hljs-symbol { color: #ff99cc !important; }
+.hljs-meta { color: #9966cc !important; }
+.hljs-meta-string { color: #cc99ff !important; }
+.hljs-section { color: #ff66ff !important; }
+.hljs-bullet { color: #66ffff !important; }
+.hljs-link { color: #9966cc !important; }
+.hljs-emphasis { color: #ff66ff !important; font-style: italic !important; }
+.hljs-strong { color: #ff66ff !important; font-weight: bold !important; }
+.hljs-addition { color: #cc99ff !important; background: rgba(204, 153, 255, 0.1) !important; }
+.hljs-deletion { color: #ff6666 !important; background: rgba(255, 102, 102, 0.1) !important; }
+
+/* Inline code - subtle background */
+.markdown-content code:not(pre code) {
+    background: #f5f5f5 !important;
+    color: #333 !important;
+    padding: 0.2em 0.4em !important;
+    border-radius: 4px !important;
+    font-size: 0.85em !important;
+    border: 1px solid #e5e5e5 !important;
+    font-weight: 500 !important;
+}
+
+/* Copy Button */
+.copy-button {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--code-text);
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    z-index: 10;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+.copy-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--code-text);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+}
+
+.copy-button.copied {
+    background: #ff66ff;
+    color: #300a24;
+    border-color: #ff66ff;
+}
+
+/* Loading and Error States */
+.loading {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #666;
+    font-size: 1.1rem;
+    background: var(--paper-bg);
+    border-radius: var(--border-radius);
+    margin: 0;
+}
+
+.loading .spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid var(--code-accent);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1.5rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #f92672;
+    background: rgba(249, 38, 114, 0.1);
+    border: 1px solid rgba(249, 38, 114, 0.3);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    margin: 0;
+}
+
+.error h3 {
+    color: #f92672;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    :root {
+        --content-width: 98%;
+        --side-margin: 1%;
+    }
+    
+    .container, .viewer-container {
+        padding: 1.5rem 0;
+        width: 100%;
+    }
+    
+    .header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .viewer-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+        padding: 1rem 0;
+    }
+    
+    .markdown-content {
+        padding: 2rem 1.5rem;
+        margin: 0;
+        border-radius: 8px;
+        width: 100%;
+    }
+    
+    .file-item:hover {
+        transform: translateX(4px);
+    }
+    
+    .markdown-content pre {
+        border-radius: 8px;
+        margin: 1.5rem 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 1.5rem 1rem !important;
+    }
+    
+    .copy-button {
+        top: 0.5rem;
+        right: 0.5rem;
+    }
+    
+    .loading, .error {
+        padding: 2rem 1rem;
+        margin: 0;
+    }
+    
+    .loading .spinner {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container, .viewer-container {
+        padding: 1rem 0;
+    }
+    
+    .markdown-content {
+        padding: 1.5rem 1rem;
+    }
+    
+    .file-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .file-date {
+        text-align: left;
+    }
+    
+    .markdown-content pre {
+        margin: 1.5rem 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 1.25rem 0.75rem !important;
+    }
+    
+    .loading, .error {
+        padding: 1.5rem 1rem;
+    }
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Selection colors */
+::selection {
+    background: var(--code-accent);
+    color: var(--code-bg);
+}
+
+.markdown-content ::selection {
+    background: var(--code-accent);
+    color: var(--code-bg);
+}
