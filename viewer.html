@@ -58,6 +58,18 @@
             text-align: center;
             padding: 0.5rem 0;
         }
+
+<!-- Add this style block to viewer.html -->
+        /* Update viewer container margins */
+        .viewer-container {
+            max-width: none;
+            width: 70%; /* Reduced from 95% to 70% to create 15% margins on each side */
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
     </style>
 </head>
 <body class="viewer-page">
@@ -66,11 +78,6 @@
         <div>
             <a href="index.html">🏠 Home</a>
             <a href="#" onclick="loadRandomDoc()">🎲 Random</a>
-        </div>
-        <div>
-            <a href="https://github.com/nali-v1/md_notes" target="_blank">📁 GitHub</a>
-            <a href="https://nali-v1.github.io/md_notes/" target="_blank">🌐 Live Site</a>
-            <a href="../sync_docs/index.html">🚀 Sync</a>
         </div>
     </div>
 

@@ -1,4 +1,4 @@
-# Digital Garden 🌱
+# Markdown Garden 🌱
 
 A beautiful, self-hosted markdown documentation viewer with modern design and syntax highlighting. Perfect for personal knowledge bases, project documentation, or digital gardens.
 

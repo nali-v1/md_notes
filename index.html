@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>dm-notes-local</title>
+    <title>Markdown Garden</title>
     <meta charset="UTF-8">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -152,21 +152,17 @@
             <a href="index.html">🏠 Home</a>
             <a href="#" onclick="loadRandomDoc()">🎲 Random</a>
         </div>
-        <div>
-            <a href="https://github.com/nali-v1/md_notes" target="_blank">📁 GitHub</a>
-            <a href="https://nali-v1.github.io/md_notes/" target="_blank">🌐 Live Site</a>
-        </div>
     </div>
 
     <div class="container">
         <div class="header">
-            <h1>🌱 Digital Garden</h1>
+            <h1>🌱 Markdown Garden</h1>
             <p>Browse and search through all documentation</p>
         </div>
 
         <input type="text" class="search-box" id="searchInput" placeholder="🔍 Search documents...">
 
-        <div id="detectionStatus" class="detection-status">🔄 Scanning docs directory...</div>
+        <div id="detectionStatus" class="detection-status">🔄 Loading documents...</div>
         <div id="fileCount" class="file-count"></div>
 
         <div id="docList" class="doc-list">
@@ -175,56 +171,58 @@
     </div>
 
     <script>
-        // Auto-detect markdown files dynamically
+        // Known markdown files - GitHub Pages doesn't allow directory listing
+        const knownFiles = [
+            { 
+                path: 'docs/README.md',
+                filename: 'README.md',
+                title: 'Welcome Guide'
+            },
+            { 
+                path: 'docs/nvim.md',
+                filename: 'nvim.md', 
+                title: 'Neovim Mastery'
+            },
+            { 
+                path: 'docs/LICENSE.md',
+                filename: 'LICENSE.md',
+                title: 'License'
+            }
+        ];
+
+        // Auto-detect markdown files with fallback
         async function loadMarkdownFiles() {
             try {
-                document.getElementById('detectionStatus').textContent = '🔄 Scanning docs directory...';
+                document.getElementById('detectionStatus').textContent = '🔄 Checking for documents...';
                 
-                // Try to get list from docs directory
-                const response = await fetch('docs/');
-                if (!response.ok) throw new Error('Cannot access docs directory');
+                // Try to detect files by testing if they exist
+                const detectedFiles = [];
                 
-                const html = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const links = doc.querySelectorAll('a[href$=".md"]');
+                for (const file of knownFiles) {
+                    try {
+                        const response = await fetch(file.path);
+                        if (response.ok) {
+                            detectedFiles.push(file);
+                        }
+                    } catch (e) {
+                        // File doesn't exist or can't be accessed
+                        console.log(`File not found: ${file.path}`);
+                    }
+                }
                 
-                const files = Array.from(links)
-                    .map(link => {
-                        const href = link.getAttribute('href');
-                        const filename = href.split('/').pop();
-                        return {
-                            title: filename.replace('.md', '')
-                                          .replace(/_/g, ' ')
-                                          .replace(/-/g, ' ')
-                                          .replace(/\b\w/g, l => l.toUpperCase()),
-                            path: `docs/${filename}`,
-                            filename: filename
-                        };
-                    })
-                    .filter(file => file.filename.endsWith('.md'))
-                    .sort((a, b) => a.title.localeCompare(b.title));
-                
-                document.getElementById('detectionStatus').textContent = `✅ Found ${files.length} markdown files`;
-                return files;
+                if (detectedFiles.length > 0) {
+                    document.getElementById('detectionStatus').textContent = `✅ Found ${detectedFiles.length} markdown files`;
+                    return detectedFiles;
+                } else {
+                    // Fallback to known files even if detection fails
+                    document.getElementById('detectionStatus').textContent = '✅ Loaded default documents';
+                    return knownFiles;
+                }
                 
             } catch (error) {
                 console.log('Auto-detection failed:', error);
-                document.getElementById('detectionStatus').textContent = '❌ Auto-detection failed, using fallback list';
-                
-                // Fallback to manual list
-                return [
-                    { 
-                        title: 'Welcome Guide', 
-                        path: 'docs/README.md', 
-                        filename: 'README.md' 
-                    },
-                    { 
-                        title: 'Neovim Mastery', 
-                        path: 'docs/nvim.md', 
-                        filename: 'nvim.md' 
-                    }
-                ];
+                document.getElementById('detectionStatus').textContent = '✅ Loaded default documents';
+                return knownFiles;
             }
         }
 

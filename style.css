@@ -7,21 +7,21 @@
     --ui-border: #2a2a2a;
     --ui-hover: #1a1a1a;
     
-    /* Paper Theme Colors - Clean Creamy White */
-    --paper-bg: #fefefe;
+    /* Eye-care reading mode colors - soft light background */
+    --paper-bg: #f8f4e9; /* Soft warm cream - easier on eyes */
     --paper-text: #2a2a2a;
-    --paper-border: #e5e5e5;
+    --paper-border: #e5e0d1;
     --paper-shadow: 0 4px 20px rgba(0,0,0,0.08);
     
-    /* GNOME Terminal Purple Code Colors */
-    --code-bg: #300a24;
-    --code-text: #ffffff;
-    --code-border: #5a2a4a;
-    --code-accent: #ff66ff;
+    /* Grey code block theme */
+    --code-bg: #2d2d2d; /* Dark grey background */
+    --code-text: #f8f8f8; /* Light grey text */
+    --code-border: #444444; /* Medium grey border */
+    --code-accent: #66ccff; /* Blue accent for highlights */
     
     /* Layout */
-    --content-width: 95%;
-    --side-margin: 2.5%;
+    --content-width: 70%; /* Reduced from 95% to create 15% margins */
+    --side-margin: 15%;
     --border-radius: 12px;
 }
 
@@ -50,7 +50,7 @@ body.listing-page {
 
 .container {
     max-width: none;
-    width: var(--content-width);
+    width: 95%; /* Keep index page at 95% width */
     margin: 0 auto;
     padding: 3rem 0;
 }
@@ -200,7 +200,7 @@ body.listing-page {
 }
 
 /* =========================================== */
-/* VIEWER PAGE - PURE CREAMY WHITE BACKGROUND */
+/* VIEWER PAGE - EYE-CARE SOFT BACKGROUND */
 /* =========================================== */
 
 body.viewer-page {
@@ -211,7 +211,7 @@ body.viewer-page {
 
 .viewer-container {
     max-width: none;
-    width: var(--content-width);
+    width: var(--content-width); /* Now 70% for 15% margins */
     margin: 0 auto;
     min-height: 100vh;
     display: flex;
@@ -254,7 +254,7 @@ body.viewer-page {
     opacity: 0.8;
 }
 
-/* Main Content Area - Pure Creamy White */
+/* Main Content Area - Dark */
 .viewer-main {
     flex: 1;
     background: var(--ui-bg);
@@ -269,15 +269,15 @@ body.viewer-page {
     box-shadow: var(--paper-shadow);
     border: 1px solid var(--paper-border);
     
-    /* Pure creamy white background - no lines, no texture */
+    /* Eye-care background - no patterns, pure soft color */
     background-image: none;
     
-    /* Full width content */
+    /* Full width content within the centered container */
     width: 100%;
     max-width: 100%;
 }
 
-/* Markdown Typography - Clean White Background */
+/* Markdown Typography - Eye-care Background */
 .markdown-content h1 {
     font-size: 2.2rem;
     margin-bottom: 1.5rem;
@@ -372,7 +372,7 @@ body.viewer-page {
 }
 
 /* =========================================== */
-/* GNOME TERMINAL PURPLE CODE BLOCKS */
+/* GREY THEME CODE BLOCKS */
 /* =========================================== */
 
 .markdown-content pre {
@@ -407,47 +407,47 @@ body.viewer-page {
     display: block !important;
 }
 
-/* GNOME Terminal Purple syntax highlighting */
+/* Grey theme syntax highlighting */
 .hljs {
     background: var(--code-bg) !important;
     color: var(--code-text) !important;
 }
 
-/* Base syntax colors */
-.hljs-keyword { color: #ff66ff !important; font-weight: bold !important; }
-.hljs-string { color: #cc99ff !important; }
-.hljs-number { color: #ff99cc !important; }
-.hljs-comment { color: #9966cc !important; font-style: italic !important; }
-.hljs-function { color: #66ffff !important; }
-.hljs-params { color: #ffffff !important; }
-.hljs-title { color: #cc99ff !important; }
-.hljs-built_in { color: #66ffff !important; }
-.hljs-literal { color: #ff99cc !important; }
-.hljs-type { color: #66ffff !important; }
-.hljs-variable { color: #ffffff !important; }
-.hljs-name { color: #ff66ff !important; }
-.hljs-tag { color: #ff66ff !important; }
-.hljs-attr { color: #66ffff !important; }
-.hljs-attribute { color: #cc99ff !important; }
-.hljs-symbol { color: #ff99cc !important; }
-.hljs-meta { color: #9966cc !important; }
-.hljs-meta-string { color: #cc99ff !important; }
-.hljs-section { color: #ff66ff !important; }
-.hljs-bullet { color: #66ffff !important; }
-.hljs-link { color: #9966cc !important; }
-.hljs-emphasis { color: #ff66ff !important; font-style: italic !important; }
-.hljs-strong { color: #ff66ff !important; font-weight: bold !important; }
-.hljs-addition { color: #cc99ff !important; background: rgba(204, 153, 255, 0.1) !important; }
-.hljs-deletion { color: #ff6666 !important; background: rgba(255, 102, 102, 0.1) !important; }
+/* Grey theme syntax colors */
+.hljs-keyword { color: #cc7832 !important; font-weight: bold !important; } /* Orange */
+.hljs-string { color: #6a8759 !important; } /* Green */
+.hljs-number { color: #6897bb !important; } /* Blue */
+.hljs-comment { color: #808080 !important; font-style: italic !important; } /* Grey */
+.hljs-function { color: #ffc66d !important; } /* Yellow */
+.hljs-params { color: #a9b7c6 !important; } /* Light grey */
+.hljs-title { color: #ffc66d !important; } /* Yellow */
+.hljs-built_in { color: #a9b7c6 !important; } /* Light grey */
+.hljs-literal { color: #6897bb !important; } /* Blue */
+.hljs-type { color: #a9b7c6 !important; } /* Light grey */
+.hljs-variable { color: #a9b7c6 !important; } /* Light grey */
+.hljs-name { color: #e8bf6a !important; } /* Gold */
+.hljs-tag { color: #e8bf6a !important; } /* Gold */
+.hljs-attr { color: #a9b7c6 !important; } /* Light grey */
+.hljs-attribute { color: #bababa !important; } /* Medium grey */
+.hljs-symbol { color: #6897bb !important; } /* Blue */
+.hljs-meta { color: #bbb529 !important; } /* Yellow-green */
+.hljs-meta-string { color: #6a8759 !important; } /* Green */
+.hljs-section { color: #ffc66d !important; } /* Yellow */
+.hljs-bullet { color: #6897bb !important; } /* Blue */
+.hljs-link { color: #287bde !important; } /* Blue */
+.hljs-emphasis { color: #cc7832 !important; font-style: italic !important; } /* Orange */
+.hljs-strong { color: #cc7832 !important; font-weight: bold !important; } /* Orange */
+.hljs-addition { color: #6a8759 !important; background: rgba(106, 135, 89, 0.1) !important; } /* Green */
+.hljs-deletion { color: #e06c75 !important; background: rgba(224, 108, 117, 0.1) !important; } /* Red */
 
 /* Inline code - subtle background */
 .markdown-content code:not(pre code) {
-    background: #f5f5f5 !important;
+    background: #f0ede0 !important; /* Slightly darker cream */
     color: #333 !important;
     padding: 0.2em 0.4em !important;
     border-radius: 4px !important;
     font-size: 0.85em !important;
-    border: 1px solid #e5e5e5 !important;
+    border: 1px solid #e5e0d1 !important;
     font-weight: 500 !important;
 }
 
@@ -479,9 +479,9 @@ body.viewer-page {
 }
 
 .copy-button.copied {
-    background: #ff66ff;
-    color: #300a24;
-    border-color: #ff66ff;
+    background: #66ccff; /* Blue accent */
+    color: #2d2d2d; /* Dark grey text */
+    border-color: #66ccff;
 }
 
 /* Loading and Error States */
@@ -530,13 +530,16 @@ body.viewer-page {
 /* Responsive Design */
 @media (max-width: 768px) {
     :root {
-        --content-width: 98%;
-        --side-margin: 1%;
+        --content-width: 90%; /* Slightly wider on tablets */
     }
     
-    .container, .viewer-container {
+    .container {
+        width: 98%; /* Keep index page responsive */
+    }
+    
+    .viewer-container {
         padding: 1.5rem 0;
-        width: 100%;
+        width: var(--content-width);
     }
     
     .header h1 {
@@ -586,6 +589,10 @@ body.viewer-page {
 }
 
 @media (max-width: 480px) {
+    :root {
+        --content-width: 95%; /* Almost full width on very small screens */
+    }
+    
     .container, .viewer-container {
         padding: 1rem 0;
     }
