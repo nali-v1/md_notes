@@ -28,8 +28,6 @@ python -m http.server 8000
 ```
 
 ### 2. View Live site
-HEAD
-Visit: https://nali-v1.github.io/md_notes/
 Visit: https://nali-v1.github.io/md_notes/
 
 ## 📝 How to Use
